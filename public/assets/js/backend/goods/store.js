@@ -5,11 +5,11 @@ define(['jquery', 'bootstrap', 'backend', 'form', 'table'], function ($, undefin
             // 初始化表格参数配置
             Table.api.init({
                 extend: {
-                    index_url: 'banner/banner/index',
-                    add_url: 'banner/banner/add',
-                    edit_url: 'banner/banner/edit',
-                    del_url: 'banner/banner/del',
-                    multi_url: 'banner/banner/multi',
+                    index_url: 'goods/store/index',
+                    add_url: 'goods/store/add',
+                    edit_url: 'goods/store/edit',
+                    del_url: 'goods/store/del',
+                    multi_url: 'goods/store/multi',
                     table: 'attachment'
                 }
             });
@@ -24,16 +24,34 @@ define(['jquery', 'bootstrap', 'backend', 'form', 'table'], function ($, undefin
                     [
                         {field: 'state', checkbox: true,},
                         {field: 'id', title:'id'},
-                        {field: 'img_url', title: __('预览'), formatter: Controller.api.formatter.thumb, operate: false},
+                        {field: 'store_logo_img', title: __('LOGO预览'), formatter: Controller.api.formatter.thumb, operate: false},
+                        {field: 'store_img', title: __('商家图片预览'), formatter: Controller.api.formatter.thumbs, operate: false},
                         // {field: 'admin_id', title: '管理员id', visible: false, addClass: "selectpage", extend: "data-source='auth/admin/index' data-field='nickname'"},
-                        {field: 'name', title: '图片名称'},
+                        // {field: 'zhiding', title: '应用端', sortable: true},
+                        {field: 'store_name', title: '商家名称',sortable: true},
+                        // {field: 'store_name', title: '商家名称', visible: false, addClass: "selectpage", extend: "data-source='user/user/index' data-field='nickname'"},
+                        {field: 'goods_id', title: '所属分类', visible: false, addClass: "selectpage", extend: "data-source='goods/store/goodsList' data-field='nickname'"},
                         {field: 'sort', title: '排序', sortable: true},
-                        {field: 'img_url', title: '物理路径', sortable: true},
-                        {field: 'href', title: '跳转链接', formatter: Controller.api.formatter.url},
-                        {field: 'status', title: '状态', sortable: true},
+                        {field: 'store_address', title: '商家地址', sortable: true},
+                        {field: 'store_phone', title: '商家手机号', sortable: true},
+                        {field: 'store_describe', title: '商家描述', sortable: true},
+                        {field: 'province', title: '省', sortable: true},
+                        {field: 'city', title: '市', sortable: true},
+                        {field: 'area', title: '区', sortable: true},
+                        // {field: 'img_url', title: '物理路径', sortable: true},
+                        // {field: 'href', title: '跳转链接', formatter: Controller.api.formatter.url},
+                        {field: 'status', title: '状态', visible: false, addClass: "selectpage", extend: "data-source='goods/store/statusList' data-field='name'"},
                         {
                             field: 'create_time',
                             title: '创建日期',
+                            formatter: Table.api.formatter.datetime,
+                            operate: 'RANGE',
+                            addclass: 'datetimerange',
+                            sortable: true
+                        },
+                        {
+                            field: 'update_time',
+                            title: '修改日期',
                             formatter: Table.api.formatter.datetime,
                             operate: 'RANGE',
                             addclass: 'datetimerange',
@@ -126,12 +144,16 @@ define(['jquery', 'bootstrap', 'backend', 'form', 'table'], function ($, undefin
             formatter: {
                 thumb: function (value, row, index) {
                     // if (row.mimetype.indexOf("image") > -1) {
-                        var style = row.storage == 'upyun' ? '!/fwfh/120x90' : '';
+                    var style = row.storage == 'upyun' ? '!/fwfh/120x90' : '';
                     //     return '<a href="' + row.fullurl + '" target="_blank"><img src="' + row.fullurl + style + '" alt="" style="max-height:90px;max-width:120px"></a>';
                     // } else {
                     //     return '<a href="' + row.fullurl + '" target="_blank"><img src="https://tool.fastadmin.net/icon/' + row.imagetype + '.png" alt=""></a>';
                     // }
-                    return '<a href="' + row.img_url + '" target="_blank"><img src="' + row.img_url + style + '" alt="" style="max-height:90px;max-width:120px"></a>';
+                    return '<a href="' + row.store_logo_img + '" target="_blank"><img src="' + row.store_logo_img + style + '" alt="" style="max-height:90px;max-width:120px"></a>';
+                },
+                thumbs: function(value, row, index){
+                    var style = row.storage == 'upyun' ? '!/fwfh/120x90' : '';
+                    return '<a href="' + row.store_img + '" target="_blank"><img src="' + row.store_img + style + '" alt="" style="max-height:90px;max-width:120px"></a>';
                 },
                 url: function (value, row, index) {
                     return '<a href="' + row.href + '" target="_blank" class="label bg-green">' + value + '</a>';

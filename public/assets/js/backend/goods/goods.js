@@ -5,11 +5,11 @@ define(['jquery', 'bootstrap', 'backend', 'form', 'table'], function ($, undefin
             // 初始化表格参数配置
             Table.api.init({
                 extend: {
-                    index_url: 'banner/banner/index',
-                    add_url: 'banner/banner/add',
-                    edit_url: 'banner/banner/edit',
-                    del_url: 'banner/banner/del',
-                    multi_url: 'banner/banner/multi',
+                    index_url: 'goods/goods/index',
+                    add_url: 'goods/goods/add',
+                    edit_url: 'goods/goods/edit',
+                    del_url: 'goods/goods/del',
+                    multi_url: 'goods/goods/multi',
                     table: 'attachment'
                 }
             });
@@ -24,16 +24,25 @@ define(['jquery', 'bootstrap', 'backend', 'form', 'table'], function ($, undefin
                     [
                         {field: 'state', checkbox: true,},
                         {field: 'id', title:'id'},
-                        {field: 'img_url', title: __('预览'), formatter: Controller.api.formatter.thumb, operate: false},
+                        {field: 'goods_img', title: __('预览'), formatter: Controller.api.formatter.thumb, operate: false},
                         // {field: 'admin_id', title: '管理员id', visible: false, addClass: "selectpage", extend: "data-source='auth/admin/index' data-field='nickname'"},
-                        {field: 'name', title: '图片名称'},
+                        // {field: 'zhiding', title: '应用端', sortable: true},
+                        {field: 'goods_name', title: '分类名称', sortable: true},
                         {field: 'sort', title: '排序', sortable: true},
-                        {field: 'img_url', title: '物理路径', sortable: true},
-                        {field: 'href', title: '跳转链接', formatter: Controller.api.formatter.url},
-                        {field: 'status', title: '状态', sortable: true},
+                        // {field: 'img_url', title: '物理路径', sortable: true},
+                        // {field: 'href', title: '跳转链接', formatter: Controller.api.formatter.url},
+                        {field: 'status', title: '状态', visible: false, addClass: "selectpage", extend: "data-source='goods/goods/statusList' data-field='name'"},
                         {
                             field: 'create_time',
                             title: '创建日期',
+                            formatter: Table.api.formatter.datetime,
+                            operate: 'RANGE',
+                            addclass: 'datetimerange',
+                            sortable: true
+                        },
+                        {
+                            field: 'update_time',
+                            title: '修改日期',
                             formatter: Table.api.formatter.datetime,
                             operate: 'RANGE',
                             addclass: 'datetimerange',
@@ -131,7 +140,7 @@ define(['jquery', 'bootstrap', 'backend', 'form', 'table'], function ($, undefin
                     // } else {
                     //     return '<a href="' + row.fullurl + '" target="_blank"><img src="https://tool.fastadmin.net/icon/' + row.imagetype + '.png" alt=""></a>';
                     // }
-                    return '<a href="' + row.img_url + '" target="_blank"><img src="' + row.img_url + style + '" alt="" style="max-height:90px;max-width:120px"></a>';
+                    return '<a href="' + row.goods_img + '" target="_blank"><img src="' + row.goods_img + style + '" alt="" style="max-height:90px;max-width:120px"></a>';
                 },
                 url: function (value, row, index) {
                     return '<a href="' + row.href + '" target="_blank" class="label bg-green">' + value + '</a>';

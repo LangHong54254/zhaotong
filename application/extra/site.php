@@ -1,7 +1,7 @@
 <?php
 
 return array (
-  'name' => 'FastAdmin',
+  'name' => '昭通汽车',
   'beian' => '',
   'cdnurl' => '',
   'version' => '1.0.1',
@@ -35,4 +35,5 @@ return array (
   'mail_smtp_pass' => 'password',
   'mail_verify_type' => '2',
   'mail_from' => '10000@qq.com',
+  'site' => '',
 );

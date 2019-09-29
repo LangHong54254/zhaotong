@@ -1,24 +1,27 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Administrator
- * Date: 2019/6/20
- * Time: 15:21
+ * User: Acer
+ * Date: 2019/9/25
+ * Time: 23:24
  */
-namespace app\admin\controller\brand;
+
+namespace app\admin\controller\goods;
+
 
 use app\common\controller\Backend;
-use app\admin\model\Brand as BrandModel;
+use app\admin\model\Store as StoreModel;
+use app\admin\model\Goods as GoodsModel;
 
-class Brand extends Backend
+class Store extends Backend
 {
-
     protected $model = null;
     public function _initialize()
     {
         parent::_initialize();
-        $this->model = new BrandModel();
+        $this->model = new StoreModel();
     }
+
 
     public function index(){
         //设置过滤方法
@@ -45,6 +48,9 @@ class Brand extends Backend
                 $this->error();
             }
         }
+        $goodsModel = new GoodsModel();
+        $goodsList = $goodsModel->where('status',1)->field('id,goods_name,status')->select();
+        $this->assign('goodsList',$goodsList);
         return $this->view->fetch();
     }
 
@@ -52,6 +58,7 @@ class Brand extends Backend
         if ($this->request->isAjax()){
             $file = $this->request->param()['row'];
             $id = $this->request->param()['ids'];
+            $file['update_time'] = time();
             $res = $this->model->where('id','eq',$id)->update($file);
             if ($res){
                 $this->success();
@@ -60,8 +67,12 @@ class Brand extends Backend
             }
         }
         $id = $this->request->param()['ids'];
-        $data =  $this->model->where('id','eq',$id)->find();
+        $data = $this->model->where('id','eq',$id)->find();
+        $goodsModel = new GoodsModel();
+        $goodsList = $goodsModel->where('status',1)->field('id,goods_name,status')->select();
+        $this->assign('goodsList',$goodsList);
         $this->assign('row',$data);
+        $this->assign('status',$data->getData('status'));
         return $this->fetch();
     }
 
@@ -73,18 +84,15 @@ class Brand extends Backend
     {
         if ($ids) {
             \think\Hook::add('upload_delete', function ($params) {
-                $res = preg_match_all("/src=\"(.*)\"/iUs",$params['content'],$out);
-                $img = $out[1];
-                foreach ($img as $k){
-                    $attachmentFile = ROOT_PATH . '/public' . $k;
-                    if (is_file($attachmentFile)) {
-                        @unlink($attachmentFile);
-                    }
+                $attachmentFile = ROOT_PATH . '/public' . $params['store_logo_img'];
+                if (is_file($attachmentFile)) {
+                    @unlink($attachmentFile);
                 }
-//                $attachmentFile = ROOT_PATH . '/public' . $params['img_url'];
-//                if (is_file($attachmentFile)) {
-//                    @unlink($attachmentFile);
-//                }
+
+                $attachmentFile2 = ROOT_PATH . '/public' . $params['store_img'];
+                if (is_file($attachmentFile2)) {
+                    @unlink($attachmentFile2);
+                }
             });
             $attachmentlist = $this->model->where('id', 'in', $ids)->select();
             foreach ($attachmentlist as $attachment) {
@@ -94,5 +102,23 @@ class Brand extends Backend
             $this->success();
         }
         $this->error(__('Parameter %s can not be empty', 'ids'));
+    }
+
+    public function goodsList(){
+        $goodsModel = new GoodsModel();
+        $data = $goodsModel->where('status',1)->field('id,goods_name,status')->select();
+        $goodsList = [];
+        foreach ($data as $k => $v){
+            $goodsList[$k]['id'] = $v['id'];
+            $goodsList[$k]['nickname'] = $v['goods_name'];
+            $goodsList[$k]['pid'] = 0;
+        }
+        return json(['list' => $goodsList, 'total' => count($goodsList)]);
+    }
+
+    public function statusList(){
+        $statusList = [['id' => 1, 'name' => '正常'],['id' => 2, 'name' => '禁止']];
+        return json(['list' => $statusList, 'total' => count($statusList)]);
+
     }
 }

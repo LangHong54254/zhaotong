@@ -1,37 +1,34 @@
 <form id="add-form" class="form-horizontal form-ajax" role="form" data-toggle="validator" method="POST" action="">
     <div class="form-group">
-        <label for="name" class="control-label col-xs-12 col-sm-2">{:__('Name')}:</label>
+        <label for="name" class="control-label col-xs-12 col-sm-2">分类名称:</label>
         <div class="col-xs-12 col-sm-8">
-            <input type="text" class="form-control" id="name" name="row[name]"
-                   data-placeholder-node="{:__('Node tips')}" data-placeholder-menu="{:__('Menu tips')}" value="{$row.name}"
+            <input type="text" class="form-control" id="name" name="row[goods_name]"
+                   data-placeholder-node="{:__('Node tips')}" data-placeholder-menu="{:__('Menu tips')}" value="{$row.goods_name}"
                    data-rule="required"/>
         </div>
     </div>
     <div class="form-group">
-        <label for="name" class="control-label col-xs-12 col-sm-2">位置:</label>
+        <label for="name" class="control-label col-xs-12 col-sm-2">排序:</label>
         <div class="col-xs-12 col-sm-8">
-            <input type="text" class="form-control" id="position" name="row[position]"
+            <input type="text" class="form-control" id="position" name="row[sort]"
                    data-placeholder-node="{:__('Node tips')}" data-placeholder-menu="{:__('Menu tips')}" value="{$row.sort}"
-                   data-rule="required"/>
+                   data-rule=""/>
         </div>
     </div>
-
-    <div class="form-group">
-        <label for="name" class="control-label col-xs-12 col-sm-2">链接:
-
-        </label>
-        <div class="col-xs-12 col-sm-8">
-            <input type="text" class="form-control" id="href" name="row[href]"
-                   data-placeholder-node="{:__('Node tips')}" data-placeholder-menu="{:__('Menu tips')}" value="{$row.href}"
-                   data-rule="required"/>
-        </div>
-    </div>
+    <!--<div class="form-group">-->
+    <!--<label for="name" class="control-label col-xs-12 col-sm-2">链接:</label>-->
+    <!--<div class="col-xs-12 col-sm-8">-->
+    <!--<input type="text" class="form-control" id="href" name="row[href]"-->
+    <!--data-placeholder-node="{:__('Node tips')}" data-placeholder-menu="{:__('Menu tips')}" value=""-->
+    <!--data-rule="required"/>-->
+    <!--</div>-->
+    <!--</div>-->
 
     <div class="form-group">
         <label for="c-avatar" class="control-label col-xs-12 col-sm-2">图片:</label>
         <div class="col-xs-12 col-sm-8">
             <div class="input-group">
-                <input id="c-avatar" data-rule="" class="form-control" size="50" name="row[imgurl]" type="text" value="{$row.img_url}">
+                <input id="c-avatar" data-rule="" class="form-control" size="50" name="row[goods_img]" type="text" value="{$row.goods_img}">
                 <div class="input-group-addon no-border no-padding">
                     <span><button type="button" id="plupload-avatar"   data-multipart={"filename":"sylb"} class="btn btn-danger plupload" data-input-id="c-avatar" data-mimetype="image/gif,image/jpeg,image/png,image/jpg,image/bmp" data-multiple="false" data-preview-id="p-avatar"><i class="fa fa-upload"></i> 上传</button></span>
                     <span><button type="button" id="fachoose-avatar" class="btn btn-primary fachoose" data-input-id="c-avatar" data-mimetype="image/*" data-multiple="false"><i class="fa fa-list"></i> 选择</button></span>
@@ -44,7 +41,7 @@
     <div class="form-group">
         <label class="control-label col-xs-12 col-sm-2">{:__('状态')}:</label>
         <div class="col-xs-12 col-sm-8">
-            {:build_radios('row[status]', ['1'=>__('启用'), '0'=>__('禁止')],$status)}
+            {:build_radios('row[status]', ['1'=>__('启用'), '0'=>__('禁止')])}
         </div>
     </div>
 
@@ -52,7 +49,7 @@
     <div class="form-group hidden layer-footer">
         <div class="col-xs-2"></div>
         <div class="col-xs-12 col-sm-8">
-            <button type="submit" class="btn btn-success btn-embossed">{:__('OK')}</button>
+            <button type="submit" class="btn btn-success btn-embossed disabled">{:__('OK')}</button>
             <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
         </div>
     </div>
