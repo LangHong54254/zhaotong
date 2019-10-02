@@ -13,8 +13,17 @@ use think\Model;
 
 class About extends Model
 {
+    protected $type = [
+        'create_time' => 'timestamp:Y-m-d G:i:s',
+    ];
+
     public function getStatusAttr($value,$data){
         $status = [ 1 => '正常', 0 => '禁止'];
         return $status[$data['status']];
+    }
+
+    public function getAboutDataLogic(){
+        $data = $this->find();
+        return $data;
     }
 }

@@ -13,13 +13,20 @@ use think\Model;
 
 class Banner extends Model
 {
-    public function getZhidingAttr($value,$data){
-        $status = [1 => '电脑端',0 => '手机端'];
-        return $status[$data['zhiding']];
-    }
+    protected $type = [
+        'create_time' => 'timestamp:Y-m-d G:i:s'
+    ];
 
     public function getStatusAttr($value,$data){
         $status = [ 1 => '正常', 0 => '禁止'];
         return $status[$data['status']];
+    }
+
+    public function ApiBannerData(){
+       $data =  $this->where('status',1)
+           ->order('sort desc')
+           ->field('id,name,sort,href,img_url')
+           ->select();
+       return $data;
     }
 }

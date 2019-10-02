@@ -13,5 +13,12 @@ use think\Model;
 
 class Receiving extends Model
 {
+    protected $type = [
+        'create_time' => 'timestamp:Y-m-d G:i:s',
+    ];
 
+    public function getReceivingDataLogic(){
+        $data = $this->find();
+        return $data;
+    }
 }
